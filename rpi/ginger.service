@@ -1,0 +1,14 @@
+    [Unit]
+    # Human readable name of the unit
+    Description=Gingerbread float lights
+
+    [Install]
+    WantedBy=default.target
+
+    [Service]
+    # Command to execute when the service is started
+    Environment="PYTHONPATH=/home/fol/pyroot"
+    ExecStart=/home/fol/.local/python3.14/bin/python3.14 /home/fol/pyroot/ginger/main.py
+
+
+

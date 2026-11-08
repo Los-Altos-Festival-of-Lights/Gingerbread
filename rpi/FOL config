@@ -1,0 +1,49 @@
+Raspberry PI4 Setup for Gingerbread float 8/23/26
+Hostname: Ginger2026
+User name: fol
+Password: festivaloflights
+WiFi SSID: Folios-WiFi
+WiFi password: [the standard one]
+WiFi SSH enabled with password identification
+Address on the static LAN 192.168.1.200 (compatible with AT&T home), gateway 192.168.1.254
+    This information is set in bootfs.cmdline.txt and can be changed without reflashing the OS
+
+Once the PI is on the network, connect as follows from the laptop command line:
+ssh fol@192.168.1.200
+Ignore the warning (it's security stuff) and enter the password.  You will then have
+a functioning command line.
+
+I installed Python3.14 on the PI.
+
+I use Filezilla to transfer the project's files to the PI, using the credentials listed above.
+
+In the final configuration of the project, the PI is set up with a user service named "ginger."  The configuration file lives in ~/.config/systemd/user/rope_test.service.  The file sets the PYTHONPATH directory to /home/fol/pyroot, and all of the project-specific files live in its subdirectories.  The main program is main.py in "/home/fol/pyroot/ginger".  The PI is configured to start this script automatically after initialization - "autostart".
+
+Some useful commands for initializing autostart, cancelling it, inspecting it, and starting/stopping the "ginger" service:
+
+To make it start on boot requires sending the following commands:
+systemctl --user enable ginger
+sudo loginctl enable-linger $USER
+(The second command only needs to be sent once)
+
+To disable autostart:
+systemctl --user disable ginger
+
+Other useful commands, to stop and start the service and check its status:
+systemctl --user start ginger
+systemctl --user stop ginger
+systemctl --user status ginger
+
+To force a reload of the service's config file, after it has changed:
+systemctl --user daemon-reload
+
+To check the status of autostart:
+systemctl --user list-unit-files | grep ginger
+
+The PixelControllers are at 192.168.1.20 and 192.168.1.21.
+20 controls the river lights on ports 9-14, which map to universes 9-21.
+20 controls the candy canes on the front of the float, ports 1-8.
+21 controls the candy canes on the back of the float, ports 9-12.
+21 controls the lights on the eves of the house, ports 15-16.
+
+    
